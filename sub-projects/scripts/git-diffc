@@ -79,13 +79,17 @@ if [ -n "${GIT_EXTERNAL_DIFF}" ]; then
 	D=`dirname $FNAME`
 	F=`basename $FNAME`
 
-	OLD_DIR="${TMP}/old/${D}"
-	NEW_DIR="${TMP}/new/${D}"
-	[ -d "${OLD_DIR}" ] || mkdir -p "${OLD_DIR}"
-	[ -d "${NEW_DIR}" ] || mkdir -p "${NEW_DIR}"
+	if [ x"$2" != x/dev/null ] ; then
+		OLD_DIR="${TMP}/old/${D}"
+		[ -d "${OLD_DIR}" ] || mkdir -p "${OLD_DIR}"
+		cp "${2}" "${OLD_DIR}/${F}"
+	fi
 
-	cp "${2}" "${OLD_DIR}/${F}"
-	cp "${5}" "${NEW_DIR}/${F}"
+	if [ x"$5" != x/dev/null ] ; then
+        	NEW_DIR="${TMP}/new/${D}"
+		[ -d "${NEW_DIR}" ] || mkdir -p "${NEW_DIR}"
+		cp "${5}" "${NEW_DIR}/${F}"
+	fi
 else
 	setupTempDirs
 
